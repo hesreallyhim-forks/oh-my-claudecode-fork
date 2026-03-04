@@ -56,9 +56,8 @@ function collectHooksFromSettings(settingsPath: string): ConflictReport['hookCon
         }
       }
     }
-  } catch (error) {
-    // Log parse errors for debugging (will also be reported separately)
-    console.warn('[doctor-conflicts] Warning: Failed to parse settings:', error instanceof Error ? error.message : String(error));
+  } catch (_error) {
+    // Ignore parse errors, will be reported separately
   }
 
   return conflicts;
@@ -195,8 +194,7 @@ export function checkClaudeMdStatus(): ConflictReport['claudeMdStatus'] {
       hasUserContent: mainResult.hasUserContent,
       path: claudeMdPath
     };
-  } catch (error) {
-    console.warn('[doctor-conflicts] Warning: Failed to parse CLAUDE.md:', error instanceof Error ? error.message : String(error));
+  } catch (_error) {
     return null;
   }
 }
@@ -287,8 +285,8 @@ export function checkConfigIssues(): ConflictReport['configIssues'] {
         unknownFields.push(field);
       }
     }
-  } catch (error) {
-    console.warn('[doctor-conflicts] Warning: Failed to parse CLAUDE.md fields:', error instanceof Error ? error.message : String(error));
+  } catch (_error) {
+    // Ignore parse errors
   }
 
   return { unknownFields };
